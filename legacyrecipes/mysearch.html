@@ -1,0 +1,55 @@
+<div class="card mt-3" style="background-color: transparent; border: none;">
+    <!-- Header with Deep Red Background and Black Border -->
+    <div class="card-header" style="background-color: #A52A2A; color: white; border: 2px solid black;">
+        <h4>My Recipes</h4>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4" ng-repeat="recipe in recipes">
+                <div class="card mb-3" style="cursor: pointer; background-color: white; border: 2px solid black;">
+
+                    <!-- Cuisine Image at the Top -->
+                    <div 
+                        class="card-img-top" 
+                        style="height: 150px; background-size: cover; background-position: center; background-image: url('./images/{{recipe.cuisineType}}.jpg');">
+                    </div>
+
+                    <!-- Recipe Title Header -->
+                    <div class="card-header" style="background-color: #A52A2A; color: white; border: 2px solid black;">
+                        <h5>{{recipe.title}}</h5>
+                    </div>
+
+                    <!-- Button to Show/Hide Recipe -->
+                    <div class="card-body text-center">
+                        <button class="btn" style="background-color: #FF7F32; color: white;" 
+                            ng-click="recipe.showDetails = !recipe.showDetails">
+                            {{recipe.showDetails ? 'Hide Recipe' : 'View Recipe'}}
+                        </button>
+                    </div>
+
+                    <!-- Recipe Details -->
+                    <div class="card-body" ng-show="recipe.showDetails">
+                        <p><strong>Ingredients:</strong></p>
+                        <p>{{recipe.ingredients}}</p>
+                        <p><strong>Steps:</strong></p>
+                        <p>{{recipe.steps}}</p>
+                    </div>
+
+                    <!-- Footer with Update/Delete Button -->
+                    <div class="card-footer text-center">
+                        <div class="text-muted mb-2">
+                            Created on: {{recipe.createDateTime | date:'MM/dd/yyyy'}}
+                        </div>
+                        <button class="btn" style="background-color: #A52A2A; color: white;" 
+                            ng-click="goToUpdateView(recipe.id)">Update/Delete Recipe</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-footer text-center" style="background-color: #A52A2A; color: white; font-size: 1.25rem;">
+        Please select a Recipe for update/delete
+    </div>
+</div>

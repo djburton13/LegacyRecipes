@@ -1,0 +1,91 @@
+<div class="container mt-5">
+    <!-- Success Pop-up Box -->
+    <div class="alert alert-success text-center" ng-show="showCreateSuccess" style="
+        background-color: #A52A2A; 
+        color: white; 
+        font-size: 1.25rem; 
+        border-radius: 8px; 
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+        padding: 15px; 
+        margin-bottom: 20px;">
+        Recipe created successfully!
+        <button class="close" ng-click="showCreateSuccess = false" style="color: white; font-size: 1.5rem; border: none; background: transparent; margin-left: 15px;">&times;</button>
+    </div>
+
+    <div class="card shadow-lg p-4 rounded">
+        <!-- Title with Solid Red Box -->
+        <div class="text-center mb-4" style="background-color: #A52A2A; padding: 10px; display: inline-block; border-radius: 5px;">
+            <h2 class="m-0" style="color: white;">Create a New Recipe</h2>
+        </div>
+
+        <form ng-submit="createRecipe()">
+            <!-- Recipe Title -->
+            <div class="form-group">
+                <label for="title" style="font-size: 1.25rem;">Recipe Title</label>
+                <input type="text" class="form-control" id="title" ng-model="recipe.title" required>
+            </div>
+
+            <!-- Ingredients -->
+            <div class="form-group">
+                <label for="ingredients" style="font-size: 1.25rem;">Ingredients</label>
+                <textarea class="form-control" id="ingredients" ng-model="recipe.ingredients" required></textarea>
+            </div>
+
+            <!-- Steps -->
+            <div class="form-group">
+                <label for="steps" style="font-size: 1.25rem;">Steps</label>
+                <textarea class="form-control" id="steps" ng-model="recipe.steps" required></textarea>
+            </div>
+
+            <!-- Cuisine Type -->
+            <div class="form-group">
+                <label for="cuisineType" style="font-size: 1.25rem;">Cuisine Type</label>
+                <select class="form-control" id="cuisineType" ng-model="recipe.cuisineType"
+                    ng-options="type for type in cuisineType" required>
+                    <option value="">Select Cuisine Type</option>
+                </select>
+            </div>
+
+            <!-- Meal Type -->
+            <div class="form-group">
+                <label for="mealType" style="font-size: 1.25rem;">Meal Type</label>
+                <select class="form-control" id="mealType" ng-model="recipe.mealType"
+                    ng-options="type for type in mealType" required>
+                    <option value="">Select Meal Type</option>
+                </select>
+            </div>
+
+            <!-- Family Favorite -->
+            <div class="form-group">
+                <label for="familyFavorite" style="font-size: 1.25rem;">Family Favorite</label>
+                <select class="form-control" id="familyFavorite" ng-model="recipe.familyFavorite"
+                    ng-options="favorite for favorite in familyFavorite" required>
+                    <option value="">Select Family Favorite</option>
+                </select>
+            </div>
+
+            <!-- Recipe Image -->
+            <div class="form-group">
+                <label for="recipeImage" class="font-weight-bold" style="font-size: 1.25rem;">Image:</label>
+                <input type="file" id="fileUploadField" name="recipeImage" ngf-select ng-model="recipeImage"
+                    accept=".jpg, .jpeg, .png" ngf-resize="{width: 200, height: 200}" class="form-control">
+
+                <div class="text-center mt-3">
+                    <img ngf-src="recipeImage" ng-show="recipeImage" class="img-thumbnail"
+                        style="max-width: 200px; height: auto;">
+                    <br><br>
+                    <button ng-show="recipeImage" class="btn btn-danger" ng-click="recipeImage=''">Remove</button>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="text-center mt-4">
+                <button type="submit" class="btn" style="background-color: #A52A2A; color: white; font-size: 1.7rem; padding: 12px 25px;" 
+                    ng-disabled="createForm.$invalid || disableCreate">Create</button>
+
+                <button type="button" class="btn" style="background-color: #FF7F32; color: white; font-size: 1.7rem; padding: 12px 25px;" 
+                    ng-click="clear()">Clear</button>
+            </div>
+        </form>
+    </div>
+</div>

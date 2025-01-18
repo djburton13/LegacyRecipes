@@ -1,97 +1,82 @@
-angular.module('legacyRecipesApp', [])
-    .controller('searchController', function($scope, $http) {
-        
-        // Initialize loading state
-        $scope.isLoading = false;
+(function () {
+    var legacyapp = angular.module('legacyapp');
 
-        // Recipes list and to display filtered recipes
-        $scope.recipes = [];
-        $scope.recipesToDisplay = [];
+    legacyapp.controller('searchController', function ($scope, $http, $location) {
+        $scope.search = true;
+        $scope.mealType = "Dinner";
+        $scope.cuisineType = "Italian";
+        $scope.familyFavorite = "Mom";
+        $scope.searchQuery = ""; 
 
-        // Initialize filters
-        $scope.filters = {
-            dinner: false,
-            sauces: false,
-            breakfast: false,
-            quickmeals: false,
-            soups: false,
-            italian: false,
-            latin: false,
-            asian: false,
-            southerncomfort: false,
-            american: false,
-            rustic: false,
-            familyFavoriteMom: false,
-            familyFavoriteDad: false,
-            familyFavoriteGrandma: false,
-            familyFavoriteGrandpa: false,
-            familyFavoriteBrother: false,
-            familyFavoriteSister: false,
-            familyFavoriteAunt: false,
-            familyFavoriteUncle: false,
-            familyFavoriteCousin: false
-        };
-
-        // Fetch all recipes from the backend
-        $scope.getAllRecipes = function() {
-            $http.get("http://localhost:8080/api/recipes")
-                .then(function(response) {
+      
+        $scope.searchbyMealType = function () {
+            $http.get("http://localhost:8080/api/recipes/mealtype/" + $scope.mealType)
+                .then(function (response) {
+                    $scope.search = false;
                     $scope.recipes = response.data;
-                    $scope.recipesToDisplay = $scope.recipes;  // Initially display all recipes
-                    console.log('Recipes loaded: ', $scope.recipes.length);
-                }, function(response) {
-                    console.log('Error fetching recipes: ', response);
+                    console.log('Number of recipes by meal type: ' + $scope.recipes.length);
+                }, function (response) {
+                    console.log('Error HTTP GET recipes by meal type: ' + response.status);
                 });
         };
 
-        // Call getAllRecipes when the controller initializes
-        $scope.getAllRecipes();
-
-        // Search recipes based on the query and active filters
-        $scope.searchRecipes = function() {
-            if (!$scope.searchQuery && !$scope.isAnyFilterActive()) return; // Exit if no search query or active filters
-
-        }
-
-        // Toggle recipe details (ingredients and steps)
-        $scope.toggleRecipeDetails = function(recipe) {
-            recipe.showDetails = !recipe.showDetails;
+        
+        $scope.searchbyCuisineType = function () {
+            $http.get("http://localhost:8080/api/recipes/cuisine/" + $scope.cuisineType)
+                .then(function (response) {
+                    $scope.search = false;
+                    $scope.recipes = response.data;
+                    console.log('Number of recipes by cuisine type: ' + $scope.recipes.length);
+                }, function (response) {
+                    console.log('Error HTTP GET recipes by cuisine type: ' + response.status);
+                });
         };
 
-        // Clear search query and reset filters
-        $scope.clearFancy = function() {
-            $scope.filters = {
-                dinner: false,
-                sauces: false,
-                breakfast: false,
-                quickmeals: false,
-                soups: false,
-                italian: false,
-                latin: false,
-                asian: false,
-                southerncomfort: false,
-                american: false,
-                rustic: false,
-                familyFavoriteMom: false,
-                familyFavoriteDad: false,
-                familyFavoriteGrandma: false,
-                familyFavoriteGrandpa: false,
-                familyFavoriteBrother: false,
-                familyFavoriteSister: false,
-                familyFavoriteAunt: false,
-                familyFavoriteUncle: false,
-                familyFavoriteCousin: false
-            };
-
-            $scope.searchQuery = ''; 
-            $scope.recipesToDisplay = $scope.recipes; 
-            $scope.isLoading = false; 
+        
+        $scope.searchbyfamilyFavorites = function () {
+            $http.get("http://localhost:8080/api/recipes/familyfavorite/" + $scope.familyFavorite)
+                .then(function (response) {
+                    $scope.search = false;
+                    $scope.recipes = response.data;
+                    console.log('Number of recipes by family favorite: ' + $scope.recipes.length);
+                }, function (response) {
+                    console.log('Error HTTP GET recipes by family favorite: ' + response.status);
+                });
         };
 
-        // Check if any filters are active
-        $scope.isAnyFilterActive = function() {
-            return Object.values($scope.filters).some(function(value) {
-                return value === true;
-            });
+        $scope.searchbyAllTypes = function () {
+            $http.get("http://localhost:8080/api/recipes/search/" + $scope.mealType + '/' + $scope.cuisineType + '/' + $scope.familyFavorite)
+                .then(function (response) {
+                    $scope.search = false;
+                    $scope.recipes = response.data;
+                    console.log('Number of recipes by family favorite: ' + $scope.recipes.length);
+                }, function (response) {
+                    console.log('Error HTTP GET recipes by family favorite: ' + response.status);
+                });
+        };
+
+        
+        $scope.searchRecipes = function () {
+        
+            $http.get('http://localhost:8080/api/recipes/search/' + $scope.searchQuery)
+                .then(function (response) {
+                    $scope.search = false;
+                    $scope.recipes = response.data;
+                    console.log('Filtered recipes:', $scope.recipes);
+                }, function (error) {
+                    console.error('Error searching recipes:', error);
+                });
+        };
+
+        
+        $scope.close = function () {
+            $scope.search = true;
+        };
+
+        
+        $scope.goToUpdateView = function (recipeId) {
+            console.log("Go to update view: " + recipeId);
+            $location.path('/update/' + recipeId);
         };
     });
+})();
