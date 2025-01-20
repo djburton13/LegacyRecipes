@@ -18,24 +18,61 @@
             <h2 class="m-0" style="color: white;">Create a New Recipe</h2>
         </div>
 
-        <form ng-submit="createRecipe()">
+        <form name="createForm" ng-submit="createRecipe()">
             <!-- Recipe Title -->
             <div class="form-group">
                 <label for="title" style="font-size: 1.25rem;">Recipe Title</label>
-                <input type="text" class="form-control" id="title" ng-model="recipe.title" required>
+                <input required ng-minlength="2" type="text" class="form-control" id="title" name="title" ng-model="recipe.title">
+                <!-- Required validation -->
+                <span class="text-danger" ng-if="createForm.title.$touched && createForm.title.$error.required">
+                    Required field...
+                </span>
+                <!-- Minimum length validation -->
+                <span class="text-danger" ng-if="createForm.title.$touched && createForm.title.$error.minlength">
+                    Must be at least 2 characters...
+                </span>
             </div>
 
             <!-- Ingredients -->
             <div class="form-group">
                 <label for="ingredients" style="font-size: 1.25rem;">Ingredients</label>
-                <textarea class="form-control" id="ingredients" ng-model="recipe.ingredients" required></textarea>
-            </div>
+                <textarea class="form-control" id="ingredients" name="ingredients" ng-model="recipe.ingredients" required
+                    ng-minlength="2">
+                                </textarea>
+                <!-- Required validation -->
+                <span class="text-danger" ng-if="createForm.ingredients.$touched && createForm.ingredients.$error.required">
+                    Required field...
+                </span>
+                <!-- Minimum length validation -->
+                <span class="text-danger" ng-if="createForm.ingredients.$touched && createForm.ingredients.$error.minlength">
+                    Must be at least 2 characters...
+                </span>
+                </div>
+            
 
             <!-- Steps -->
             <div class="form-group">
                 <label for="steps" style="font-size: 1.25rem;">Steps</label>
-                <textarea class="form-control" id="steps" ng-model="recipe.steps" required></textarea>
+                <textarea 
+                    class="form-control" 
+                    id="steps" 
+                    name="steps" 
+                    ng-model="recipe.steps" 
+                    required 
+                    ng-minlength="2">
+                </textarea>
+                <!-- Required validation -->
+                <span class="text-danger" 
+                      ng-if="createForm.steps.$touched && createForm.steps.$error.required">
+                    Required field...
+                </span>
+                <!-- Minimum length validation -->
+                <span class="text-danger" 
+                      ng-if="createForm.steps.$touched && createForm.steps.$error.minlength">
+                    Must be at least 2 characters...
+                </span>
             </div>
+            
 
             <!-- Cuisine Type -->
             <div class="form-group">
@@ -67,12 +104,14 @@
             <!-- Recipe Image -->
             <div class="form-group">
                 <label for="recipeImage" class="font-weight-bold" style="font-size: 1.25rem;">Image:</label>
-                <input type="file" id="fileUploadField" name="recipeImage" ngf-select ng-model="recipeImage"
+                <input type="file" id="fileUploadField" id="recipeImage" name="recipeImage" ngf-select ng-model="recipeImage"
                     accept=".jpg, .jpeg, .png" ngf-resize="{width: 200, height: 200}" class="form-control">
 
                 <div class="text-center mt-3">
-                    <img ngf-src="recipeImage" ng-show="recipeImage" class="img-thumbnail"
-                        style="max-width: 200px; height: auto;">
+                    <img src="data:image/png;base64,{{recipe.image}}" class="img-fluid"
+style="max-width: 200px; height: auto">
+                    <!-- <img ngf-src="recipeImage" ng-show="recipeImage" class="img-thumbnail"
+                        style="max-width: 200px; height: auto;"> -->
                     <br><br>
                     <button ng-show="recipeImage" class="btn btn-danger" ng-click="recipeImage=''">Remove</button>
                 </div>

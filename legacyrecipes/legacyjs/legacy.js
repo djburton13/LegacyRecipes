@@ -1,12 +1,10 @@
 
 var app = angular.module('legacyapp', ['ngRoute', 'ngFileUpload']);
 
-
 app.config(function($routeProvider) {
     $routeProvider
         .when('/main', {
             templateUrl: 'main.html'  
-        
         })
         .when('/create', {
             templateUrl: 'create.html',  
@@ -16,7 +14,6 @@ app.config(function($routeProvider) {
             templateUrl: 'update.html',
             controller: 'updatecontroller'
         })
-       
         .when('/search', {
             templateUrl: 'search.html',  
             controller: 'searchController'        
@@ -27,12 +24,16 @@ app.config(function($routeProvider) {
         })
         .when('/about', {
             templateUrl: 'about.html'  
-            
+        })
+        .when('/cookingtips', {
+            templateUrl: 'cookingtips.html',
+            controller: 'cookingtipsController'
         })
         .otherwise({
             redirectTo: '/main'
         });
 });
+
 
 
 

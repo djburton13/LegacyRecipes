@@ -4,7 +4,7 @@
     var legacyapp = angular.module('legacyapp');
     legacyapp.controller('updatecontroller', function ($scope, $http, $routeParams, $location) {
 
-        $scope.mealType = ['Breakfast', 'Dinner', 'Lunch', 'Quickmeal' , 'Sauces', 'Soups'];
+        $scope.mealType = ['Breakfast', 'Dinner', 'Lunch', 'Dessert'];
         $scope.cuisineType = ['Italian', 'LatinAmerica', 'American', 'Asian', 'European', 'Southern'];
         $scope.familyFavorite = ['Mom', 'Dad', 'Grandma', 'Grandpa', 'Brother', 'Sister', 'Aunt', 'Uncle', 'Stepmom', 'Stepdad', 'Cousin', 'Other'];
 
@@ -26,7 +26,11 @@
         $scope.updateRecipe = function() {
 			$http.put("http://localhost:8080/api/recipes", $scope.recipe)
 			.then(function(response) {				
-				$scope.updateStatus = 'Updated Successfully!';			
+				$scope.updateStatus = 'Updated Successfully!';	
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth" // Smooth scrolling
+                });		
 			}, function(response) {
 				$scope.updateStatus = 'error trying to update recipe';	
 				console.log('error http PUT recipes: ' + response.status);
@@ -37,6 +41,10 @@
 			.then(function(response) {				
 				$scope.updateStatus = 'Deleted Successfully!';	
 				$scope.disableUpdate = true;
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth" // Smooth scrolling
+                });
 			}, function(response) {
 				$scope.updateStatus = 'error trying to delete recipe';	
 				console.log('error http DELETE recipes: ' + response.status);
