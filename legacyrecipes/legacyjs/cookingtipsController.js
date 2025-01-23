@@ -23,7 +23,6 @@ app.controller('cookingtipsController', function ($scope, $interval) {
         $scope.toUnit = '';
     };
 
-    // Conversion logic
     $scope.convert = function () {
         let value = parseFloat($scope.inputValue);
         if (isNaN(value) || !$scope.fromUnit || !$scope.toUnit) {
@@ -77,7 +76,6 @@ app.controller('cookingtipsController', function ($scope, $interval) {
         $scope.availableUnits = [];
     };
 
-    // Add rotating tips logic
     $scope.cookingTips = [
         "Always read the recipe all the way through before you start cooking.",
         "Keep your knives sharp for better safety and efficiency.",
